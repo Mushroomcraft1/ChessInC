@@ -1,7 +1,7 @@
 # ChessInC
 Chess engine written in C
 
-Downloads:
+# Downloads:
 [Windows x64](https://github.com/Mushroomcraft1/ChessInC/raw/main/bin/chessV6.exe)
 
 # How to compile yourself:
