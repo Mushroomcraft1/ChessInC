@@ -6,5 +6,5 @@ A Chess engine written in C
 
 # Compiling yourself
 ```
-gcc uci.c -o chess.exe -O1 -funroll-loops -pthread
+gcc uci.c -o chess.exe -O3 -funroll-loops -pthread
 ```
