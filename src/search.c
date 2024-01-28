@@ -6,7 +6,6 @@
 #include <time.h>
 #include <limits.h>
 #include <float.h>
-#include <math.h>
 #include "moves.c"
 
 struct MoveScore
@@ -489,7 +488,7 @@ struct MoveScore searchMain(int *board, struct MoveGenData *moveGenData, struct 
             if (abs(bestMove.score) >= 1000000)
             {
                 mate = depth - abs(bestMove.score) + 1000000;
-                score = malloc(sizeof(char) * ((int)log10(mate | 1) + 7)); // OR log10(mate) with 1, because log10(0) is -Infinity
+                score = malloc(sizeof(char) * 10); // OR log10(mate) with 1, because log10(0) is -Infinity
                 if (bestMove.score > 0)
                 {
                     snprintf(score, sizeof(score), "mate %d", mate);
@@ -501,7 +500,7 @@ struct MoveScore searchMain(int *board, struct MoveGenData *moveGenData, struct 
             }
             else
             {
-                score = malloc(sizeof(char) * ((int)log10(abs(bestMove.score) | 1) + 6)); // OR log10(score) with 1, because log10(0) is -Infinity
+                score = malloc(sizeof(char) * 10); // OR log10(score) with 1, because log10(0) is -Infinity
                 if (bestMove.score >= 0)
                 {
                     snprintf(score, sizeof(score), "cp %i", bestMove.score);
