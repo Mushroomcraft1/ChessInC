@@ -7,55 +7,61 @@
 #include <time.h>
 #include "fen.c"
 
-#define help 2090324718
-#define uci 193507782
-#define ucinewgame 157606794
-#define isready 2867576470
-#define setoption 1752732138
-#define name 2090536006
-#define optionValue 277698370
-#define threadsOption 3758332912
-#define pos 193502743
-#define position 1290762938
-#define go 5863419
-#define stop 1053619551
-#define d 177673
-#define display 315443099
-#define debug 256484652
-#define clear 255552908
-#define q 177686
-#define quit 2090665480
-#define fen 193491518
-#define startpos 1765689381
-#define perft 270732646
-#define depth 256499866
-#define movetime 2397115307
-#define infinite 1808929275
-#define wtime 279563563
-#define btime 254659222
-#define winc 2090868182
-#define binc 2090113505
-#define scores 459181940
-#define bitboards 1053619551
-#define flush 259128679
-#define update 552456360
-#define mem 193499140
-#define test 2090756197
-
-const unsigned long hash(const char *str)
+enum command
 {
-    if (str == NULL)
+    help = 1407609685,
+    uci = 2861673354,
+    ucinewgame = 4241254300,
+    isready = 2295051998,
+    setoption = 2379324881,
+    optionName = 1401187829,
+    optionValue = 1083011594,
+    threadsOption = 1221310320,
+    option = 1914725518,
+    pos = 2861766858,
+    position = 1075845105,
+    go = 1431618741,
+    stop = 1381951317,
+    d = 2863310378,
+    display = 194847408,
+    debug = 1690989130,
+    clear = 1784258794,
+    q = 2863309962,
+    quit = 1384021973,
+    fen = 2862101354,
+    startpos = 4130117517,
+    perft = 1287797802,
+    depth = 1690531754,
+    movetime = 404751248,
+    infinite = 25191324,
+    wtime = 1138725386,
+    btime = 1776259594,
+    winc = 1376805173,
+    binc = 1396728117,
+    scores = 1436405545,
+    bitboards = 4069400178,
+    flush = 1615981482,
+    update = 4079225320,
+    mem = 2862461706,
+    test = 1378228181
+};
+
+unsigned int hash(char const *input)
+{
+    if (input == NULL)
     {
         return 0;
     }
-    unsigned long hash = 5381;
-    int c;
 
-    while ((c = *str++))
+    unsigned int result = 0x55555555;
+
+    while (*input)
     {
-        hash = ((hash << 5) + hash) + c;
+        result ^= *input++;
+        result = (result << 5) | (result >> (32 - 5));
     }
-    return hash;
+
+    return result;
 }
 
 int main()
@@ -66,8 +72,7 @@ int main()
     data->repetitionHistory = malloc(sizeof(unsigned long long) * 512);
     moveGenData->pinned = malloc(sizeof(int) * 64);
     init();
-    printf("%lu\n", hash("mem"));
-    printf("-----------\n   | \\_        _____ _                       _            _____ \n   /  .\\_     / ____| |                     (_)          / ____|\n  |   ___)   | |    | |__   ___  ___ ___     _ _ __     | |     \n  |    \\     | |    | '_ \\ / _ \\/ __/ __|   | | '_ \\    | |     \n  |  =  |    | |____| | | |  __/\\__ \\__ \\   | | | | |   | |____ \n  /_____\\     \\_____|_| |_|\\___||___/___/   |_|_| |_|    \\_____|\n [_______]   ===================================================\n-----------\n\n(c) Xavier Marcal 2023\n\n");
+    printf("-----------\n   | \\_        _____ _                       _            _____ \n   /  .\\_     / ____| |                     (_)          / ____|\n  |   ___)   | |    | |__   ___  ___ ___     _ _ __     | |     \n  |    \\     | |    | '_ \\ / _ \\/ __/ __|   | | '_ \\    | |     \n  |  =  |    | |____| | | |  __/\\__ \\__ \\   | | | | |   | |____ \n  /_____\\     \\_____|_| |_|\\___||___/___/   |_|_| |_|    \\_____|\n [_______]   ===================================================\n-----------\n\n(c) Xavier Marcal 2023 - 2024\n\n");
     fflush(stdout);
     parseGame(board, data, NULL);
     free(updateLegalMoves(board, moveGenData, data));
@@ -98,9 +103,9 @@ int main()
             fflush(stdout);
             break;
         case setoption:
-            if (hash(option) == name)
+            if (hash(option) == optionName)
             {
-                char *optionName  = malloc(sizeof(char) * length);
+                char *optionName = malloc(sizeof(char) * length);
                 char *word = strtok(NULL, " ");
                 int idx = 0;
                 while ((hash(word) != optionValue) && (word != NULL))
@@ -357,6 +362,8 @@ int main()
         case q:
         case quit:
             return 0;
+        case 0:
+            break;
         default:
             printf("[Error] '%s' is not a valid command. Type 'help' for move info.\n", cmd);
             fflush(stdout);
