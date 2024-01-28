@@ -2,7 +2,8 @@
 A Chess engine written in C
 
 # Downloads
-[Windows x64](https://github.com/Mushroomcraft1/ChessInC/raw/main/bin/WindowsX64.exe)
+[Windows x64](https://github.com/Mushroomcraft1/ChessInC/raw/main/bin/win32X64.exe)
+[Linux x64](https://github.com/Mushroomcraft1/ChessInC/raw/main/bin/linuxX64.elf)
 
 # Compiling yourself
 ```
